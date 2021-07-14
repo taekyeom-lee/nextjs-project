@@ -1,5 +1,4 @@
 import EventItem from "./EventItem";
-
 import classes from './EventList.module.css';
 
 function EventList(props) {
