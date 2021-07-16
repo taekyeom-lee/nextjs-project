@@ -23,6 +23,7 @@ function AllEventsPage(props) {
         <meta
           nams="description"
           content="Find a lot of great events that allow you to evolve..."
+          key="description"
         />
       </Head>
       <EventSearch onSearch={findEventsHandler} />
