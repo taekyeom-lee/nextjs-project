@@ -5,7 +5,7 @@ function handler(req, res) {
     const { email, name, text } = req.body;
 
     if (
-      !email.include("@") ||
+      !email.includes("@") ||
       !name ||
       name.trim() === "" ||
       !text ||
