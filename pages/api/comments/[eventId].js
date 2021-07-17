@@ -1,13 +1,11 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient } from "mongodb";
 
-import dbConfig from '../../../config/db';
+import dbConfig from "../../../config/db";
 
 async function handler(req, res) {
   const eventId = req.query.eventId;
 
-  const client = await MongoClient.connect(
-    `${dbConfig.dev}`
-  );
+  const client = await MongoClient.connect(`${dbConfig.dev}`);
 
   if (req.method === "POST") {
     const { email, name, text } = req.body;
@@ -27,12 +25,12 @@ async function handler(req, res) {
       email,
       name,
       text,
-      eventId
+      eventId,
     };
 
     const db = client.db();
 
-    const result = await db.collection('comments').insertOne(newComment);
+    const result = await db.collection("comments").insertOne(newComment);
 
     console.log(result);
 
@@ -42,12 +40,15 @@ async function handler(req, res) {
   }
 
   if (req.method === "GET") {
-    const dummyList = [
-      { id: "c1", name: "Max", text: "A first comment!" },
-      { id: "c2", name: "Manuel", text: "A second comment!" },
-    ];
+    const db = client.db();
 
-    res.status(200).json({ comments: dummyList });
+    const documents = await db
+      .collection("comments")
+      .find()
+      .sort({ _id: -1 })
+      .toArray();
+
+    res.status(200).json({ comments: documents });
   }
 
   client.close();
